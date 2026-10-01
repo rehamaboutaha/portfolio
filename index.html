@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reham Abou Taha | Portfolio</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: #0d0f18;
+      color: #ffffff;
+      overflow-x: hidden;
+    }
+
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 8%;
+      background: rgba(13, 15, 24, 0.7);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    nav .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #6C63FF;
+      letter-spacing: 1px;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+    }
+
+    nav ul li a {
+      color: #e0e0e0;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: #6C63FF;
+    }
+
+    .hero {
+      height: 100vh;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 10%;
+    }
+
+    .hero-text {
+      flex: 1;
+      max-width: 600px;
+    }
+
+    .hero h1 {
+      font-size: 3.8rem;
+      font-weight: 700;
+      line-height: 1.2;
+      background: linear-gradient(135deg, #ffffff 0%, #6C63FF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 15px;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1s ease forwards 0.3s;
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      color: #a0a5c0;
+      margin-bottom: 30px;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1s ease forwards 0.6s;
+    }
+
+    .cta-container {
+      display: flex;
+      gap: 20px;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 1s ease forwards 0.9s;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      padding: 14px 32px;
+      border-radius: 30px;
+      background: linear-gradient(135deg, #6C63FF 0%, #3F3D56 100%);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      box-shadow: 0 10px 20px rgba(108, 99, 255, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 25px rgba(108, 99, 255, 0.5);
+    }
+
+    .download-cv-btn {
+      background: transparent;
+      border: 2px solid #6C63FF;
+      color: #e0e0e0;
+    }
+
+    .download-cv-btn:hover {
+      background: #6C63FF;
+      color: #fff;
+    }
+
+    .hero-image-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      animation: fadeIn 1.5s ease forwards 0.3s;
+    }
+
+    .hero-profile-cutout {
+      width: 100%;
+      max-width: 450px;
+      height: auto;
+      object-fit: cover;
+      filter: drop-shadow(0 0 15px rgba(108, 99, 255, 0.4));
+    }
+
+    section {
+      padding: 100px 10%;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 50px;
+      text-align: center;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: #6C63FF;
+      border-radius: 2px;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 25px;
+      transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(108, 99, 255, 0.5);
+      box-shadow: 0 20px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .card h3 {
+      font-size: 1.4rem;
+      color: #6C63FF;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 0.92rem;
+      color: #b0b5cf;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    /* Buttons inside Card */
+    .project-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .project-link, .video-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #ffffff;
+      background: rgba(108, 99, 255, 0.2);
+      border: 1px solid rgba(108, 99, 255, 0.4);
+      border-radius: 20px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .project-link:hover, .video-btn:hover {
+      background: #6C63FF;
+      border-color: #6C63FF;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(108, 99, 255, 0.4);
+    }
+
+    /* Code Accordion */
+    .code-accordion {
+      margin-top: 15px;
+      margin-bottom: 10px;
+      border: 1px solid rgba(108, 99, 255, 0.3);
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.4);
+      overflow: hidden;
+    }
+
+    .code-accordion summary {
+      padding: 10px 15px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #9d96ff;
+      cursor: pointer;
+      user-select: none;
+      outline: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.3s ease;
+    }
+
+    .code-accordion summary:hover {
+      background: rgba(108, 99, 255, 0.2);
+    }
+
+    .code-box {
+      max-height: 200px;
+      overflow-y: auto;
+      padding: 12px;
+      background: #080910;
+      color: #7EC7A2;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.78rem;
+      line-height: 1.4;
+      white-space: pre-wrap;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .tag {
+      font-size: 0.78rem;
+      padding: 5px 12px;
+      background: rgba(108, 99, 255, 0.15);
+      color: #9d96ff;
+      border-radius: 15px;
+    }
+
+    .video-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .video-modal.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .video-modal-content {
+      position: relative;
+      width: 90%;
+      max-width: 750px;
+      background: #0d0f18;
+      border-radius: 16px;
+      border: 1px solid rgba(108, 99, 255, 0.4);
+      padding: 20px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+    }
+
+    .close-modal-btn {
+      position: absolute;
+      top: -15px;
+      right: -15px;
+      width: 38px;
+      height: 38px;
+      background: #6C63FF;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .close-modal-btn:hover {
+      background: #ff4d4d;
+      transform: scale(1.1);
+    }
+
+    .popup-video {
+      width: 100%;
+      max-height: 70vh;
+      border-radius: 10px;
+      outline: none;
+    }
+
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .skill-badge {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 12px 24px;
+      border-radius: 25px;
+      font-size: 1rem;
+      color: #e0e0e0;
+      transition: all 0.3s ease;
+    }
+
+    .skill-badge:hover {
+      background: #6C63FF;
+      color: #fff;
+      transform: scale(1.08);
+    }
+
+    .contact-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 25px;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      font-size: 1.1rem;
+      color: #b0b5cf;
+    }
+
+    .contact-info div {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .contact-info i {
+      color: #6C63FF;
+    }
+
+    .contact-info .separator {
+      color: rgba(255, 255, 255, 0.3);
+      font-weight: 300;
+    }
+
+    .social-links {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin-top: 10px;
+    }
+
+    .social-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e0e0e0;
+      font-size: 1.5rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .social-icon.whatsapp:hover {
+      background: #25D366;
+      color: #fff;
+      border-color: #25D366;
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+    }
+
+    .social-icon.linkedin:hover {
+      background: #0A66C2;
+      color: #fff;
+      border-color: #0A66C2;
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(10, 102, 194, 0.3);
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px;
+      background: rgba(13, 15, 24, 0.9);
+      color: #707590;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="bg-canvas"></canvas>
+
+  <nav>
+    <div class="logo">Reham Abou Taha</div>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero" id="about">
+    <div class="hero-text">
+      <h1>Reham Issam Abou Taha</h1>
+      <p>Computer Science Graduate & Web Developer passionate about building functional, visually engaging digital experiences.</p>
+      <div class="cta-container">
+        <a href="#projects" class="cta-btn">View My Work</a>
+        <a href="Rehamiaboutaha.CV.pdf" download class="cta-btn download-cv-btn">
+          <i class="fas fa-download"></i> Download My CV
+        </a>
+      </div>
+    </div>
+    <div class="hero-image-container">
+      <img src="profile/profile.png" alt="Reham Abou Taha Cutout" class="hero-profile-cutout">
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2 class="section-title">Key Projects</h2>
+    <div class="projects-grid">
+      
+      <div class="card">
+        <div>
+          <h3>Belle Beads E-Commerce</h3>
+          <p>A full-featured e-commerce system with dedicated dashboards for users, admins, and delivery drivers. Features secure PHPMailer authentication and optimized databases.</p>
+          <div class="tags">
+            <span class="tag">PHP</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">MySQL</span>
+            <span class="tag">Bootstrap</span>
+          </div>
+        </div>
+        <div class="project-actions">
+          <a href="https://github.com/rehamaboutaha/bellebeads" target="_blank" class="project-link">
+            <i class="fab fa-github"></i> View Repository
+          </a>
+          <a href="documents/RehamAbouTaha-22030910-FinalDocumentation.docx" target="_blank" class="project-link">
+            <i class="fas fa-file-pdf"></i> Download Doc
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div>
+          <h3>Smart Parking & Safety System</h3>
+          <p>An automated Arduino-powered parking system featuring real-time LCD slot monitoring, ultrasonic entrance sensors, IR exit detection, servo barrier controls, and emergency stop/open overrides.</p>
+          <details class="code-accordion">
+            <summary><i class="fas fa-code"></i> Review Source Code</summary>
+            <pre class="code-box"><code>#include &lt;Wire.h&gt;
+#include &lt;LiquidCrystal_I2C.h&gt;
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+#include &lt;Servo.h&gt;
+Servo myservo;
+
+int trig = 2;
+int echo = 3;
+int IR = 10;
+int greenLed = 4;
+int redLed = 5;
+int buzzer = 6;
+int emergencyStop = 8;
+int emergencyOpen = 9;
+int Slot = 4;
+
+bool gateOpen = false;
+bool emergencyMode = false;
+bool emergencyOpenActive = false;
+bool processingCar = false;
+unsigned long gateActionTime = 0;
+const unsigned long gateCloseDelay = 3000;
+const unsigned long gateOpenDelay = 1000;
+const int ENTRANCE_DISTANCE = 10;
+int mode = 0;
+
+long Ultrasonic() {
+  digitalWrite(trig, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trig, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trig, LOW);
+  long duration = pulseIn(echo, HIGH);
+  return duration * 0.034 / 2;
+}
+
+void setup() {
+  Serial.begin(9600);
+  lcd.init();
+  lcd.backlight();
+  pinMode(trig, OUTPUT);
+  pinMode(echo, INPUT);
+  pinMode(IR, INPUT_PULLUP);
+  pinMode(greenLed, OUTPUT);
+  pinMode(redLed, OUTPUT);
+  pinMode(buzzer, OUTPUT);
+  pinMode(emergencyStop, INPUT);
+  pinMode(emergencyOpen, INPUT);
+  myservo.attach(7);
+  myservo.write(100);
+  digitalWrite(greenLed, LOW);
+  digitalWrite(redLed, LOW);
+  noTone(buzzer);
+  
+  lcd.setCursor(0,0);
+  lcd.print("  WELCOME TO   ");
+  lcd.setCursor(0,1);
+  lcd.print("REHAM PARKING ");
+  delay(2500);
+  lcd.clear();
+}
+
+void loop() {
+  long distance = Ultrasonic();
+  bool exitDetected = (digitalRead(IR) == LOW);
+  bool stopPressed = (digitalRead(emergencyStop) == HIGH);
+  bool openPressed = (digitalRead(emergencyOpen) == HIGH);
+
+  if (stopPressed) {
+    emergencyMode = true;
+    emergencyOpenActive = false;
+    processingCar = false;
+    mode = 0;
+    myservo.write(100);
+    gateOpen = false;
+    digitalWrite(redLed, HIGH);
+    digitalWrite(greenLed, LOW);
+    tone(buzzer, 1000);
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print(" EMERGENCY STOP ");
+    lcd.setCursor(0,1);
+    lcd.print("   ACTIVATED!   ");
+    delay(500);
+    return; 
+  }
+
+  if (openPressed) {
+    emergencyMode = false;
+    emergencyOpenActive = true;
+    processingCar = false;
+    mode = 0;
+    myservo.write(0);
+    gateOpen = true;
+    digitalWrite(greenLed, HIGH);
+    digitalWrite(redLed, LOW);
+    noTone(buzzer);
+    gateActionTime = millis();
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print(" EMERGENCY OPEN ");
+    lcd.setCursor(0,1);
+    lcd.print("   ACTIVATED!   ");
+    delay(500);
+    return; 
+  }
+
+  if (emergencyMode == true && !stopPressed) {
+    emergencyMode = false;
+    noTone(buzzer);
+    digitalWrite(redLed, LOW);
+  }
+
+  if (!processingCar && !gateOpen && !emergencyMode && !emergencyOpenActive) {
+    if (distance &lt; ENTRANCE_DISTANCE && Slot &gt; 0 && mode == 0) {
+      mode = 1;
+      processingCar = true;
+      Slot--;
+      if (Slot &lt; 0) Slot = 0;
+      myservo.write(0);
+      gateOpen = true;
+      gateActionTime = millis();
+      digitalWrite(greenLed, HIGH);
+      digitalWrite(redLed, LOW);
+      noTone(buzzer);
+      lcd.clear();
+      lcd.setCursor(0,0);
+      lcd.print(" CAR ENTERING   ");
+      lcd.setCursor(0,1);
+      lcd.print("Slots Left: ");
+      lcd.print(Slot); 
+    }
+    else if (exitDetected && Slot &lt; 4 && mode == 0) {
+      mode = 2;
+      processingCar = true;
+      Slot++;
+      if (Slot &gt; 4) Slot = 4;
+      myservo.write(0);
+      gateOpen = true;
+      gateActionTime = millis();
+      digitalWrite(greenLed, HIGH);
+      digitalWrite(redLed, LOW);
+      noTone(buzzer);
+      lcd.clear();
+      lcd.setCursor(0,0);
+      lcd.print(" CAR EXITING    ");
+      lcd.setCursor(0,1);
+      lcd.print("Slots Left: ");
+      lcd.print(Slot); 
+    }
+    else if (distance &lt; ENTRANCE_DISTANCE && Slot == 0) {
+      lcd.clear();
+      lcd.setCursor(0,0);
+      lcd.print("   SORRY :(     ");
+      lcd.setCursor(0,1);
+      lcd.print(" PARKING FULL!  ");
+      digitalWrite(redLed, HIGH);
+      tone(buzzer, 800);
+      delay(1500);
+      noTone(buzzer);
+      digitalWrite(redLed, LOW); 
+    } 
+  }
+
+  if (gateOpen &&
+      (millis() - gateActionTime &gt; gateCloseDelay) &&
+      !emergencyMode &&
+      !emergencyOpenActive) 
+  { 
+    myservo.write(100);
+    gateOpen = false;
+    processingCar = false;
+    mode = 0;
+    digitalWrite(greenLed, LOW);
+    lcd.clear();
+    lcd.setCursor(0,0);
+    lcd.print("WELCOME REHAM   ");
+    lcd.setCursor(0,1);
+    lcd.print("Slots Left: ");
+    lcd.print(Slot);
+  }
+
+  if (!gateOpen && !processingCar && !emergencyMode && !emergencyOpenActive) {
+    lcd.setCursor(0,0);
+    lcd.print("WELCOME REHAM   ");
+    lcd.setCursor(0,1);
+    lcd.print("Slots Left: ");
+    lcd.print(Slot);
+    if (Slot == 0) {
+      digitalWrite(redLed, HIGH);
+    } else {
+      digitalWrite(redLed, LOW);
+    }
+  } 
+  delay(100);
+}</code></pre>
+          </details>
+
+         
+        </div>
+
+       
+
+ <div class="project-actions" style="display: flex; flex-direction: row; gap: 10px; align-items: center;">
+          <a href="https://youtube.com/shorts/ny_NIRYJCnw" target="_blank" class="project-link">
+            <i class="fas fa-play"></i> Watch Video
+          </a>
+          
+        </div>
+      </div>
+
+
+      <div class="card">
+        <div>
+          <h3>Smart Plant Watering System</h3>
+          <p>An automated circuit simulation designed on Tinkercad that detects soil moisture levels,light level,and temperature.</p>
+          <div class="tags">
+            <span class="tag">Tinkercad</span>
+            <span class="tag">Arduino</span>
+            <span class="tag">Sensors</span>
+          </div>
+        </div>
+        <div class="project-actions">
+          <a href="https://www.tinkercad.com/things/cBYUVwg8E9r-copy-of-circuits/editel?returnTo=https%3A%2F%2Fwww.tinkercad.com%2Fdashboard%2Fdesigns%2Fcircuits&sharecode=llbccvJhHiMMkPLFFZiamb_3DL0nIXtRV8lOObS2Rlw" target="_blank" class="project-link">
+            <i class="fas fa-microchip"></i> View Simulation
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div>
+          <h3>Concepts of Programming Languages Analysis</h3>
+          <p>A comparative study analyzing core execution models, memory management, syntax mapping, and Object-Oriented principles across Java, Python, and C#</p>
+          <div class="tags">
+            <span class="tag">Java</span>
+            <span class="tag">Python</span>
+            <span class="tag">C# (.NET)</span>
+            <span class="tag">OOP Analysis</span>
+          </div>
+        </div>
+       <div class="project-actions" style="display: flex; flex-direction: row; gap: 10px; align-items: center;">
+          <a href="documents/CSCI351-p1.pdf" target="_blank" class="project-link" style="flex: 1; text-align: center; justify-content: center;">
+            <i class="fas fa-file-pdf"></i> View Project 1
+          </a>
+          <a href="documents/CSCI351-p2.pdf" target="_blank" class="project-link" style="flex: 1; text-align: center; justify-content: center;">
+            <i class="fas fa-file-pdf"></i> View Project 2 
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div>
+          <h3>STEAM & Robotics Curricula</h3>
+          <p>Interactive block-coding and STEAM learning projects developed during a Cash for Work program provided by Anera and hosted at RoboGeex Academy. Features 3D models, robotics, and creative logic challenges.</p>
+          <div class="tags">
+            <span class="tag">Scratch</span>
+            <span class="tag">PictoBlox</span>
+            <span class="tag">Fusion 360</span>
+            <span class="tag">MakeCode</span>
+           <span class="tag">Mixly</span>
+            <span class="tag">Tinkercad</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  </div>
+
+  <section id="skills">
+    <h2 class="section-title">Technical Skills</h2>
+    <div class="skills-grid">
+      <div class="skill-badge">PHP</div>
+      <div class="skill-badge">JavaScript</div>
+      <div class="skill-badge">MySQL</div>
+      <div class="skill-badge">HTML5 / CSS3</div>
+      <div class="skill-badge">Bootstrap</div>
+      <div class="skill-badge">Java</div>
+      <div class="skill-badge">C#</div>
+      <div class="skill-badge">phpMyAdmin</div>
+      <div class="skill-badge">Fusion 360</div>
+      <div class="skill-badge">Tinkercad</div>
+      <div class="skill-badge">Scratch</div>
+     <div class="skill-badge">PictoBlox</div>
+    <div class="skill-badge">Mixly</div>
+     <div class="skill-badge">MakeCode</div>
+     <div class="skill-badge">MicrosoftOffice</div>
+    <div class="skill-badge">ActiveInspire</div>
+    <div class="skill-badge">Google Workspace</div>
+    <div class="skill-badge">Canva</div>
+      <div class="skill-badge">CCNA Networking</div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2 class="section-title">Get In Touch</h2>
+    <div class="contact-container">
+      <div class="contact-info">
+        <div><i class="fas fa-envelope"></i> rehamaboutaha12@gmail.com</div>
+        <span class="separator">|</span>
+        <div><i class="fas fa-phone"></i> +961 76 787 799</div>
+        <span class="separator">|</span>
+        <div><i class="fas fa-location-dot"></i> AlManara, West Bekaa, Lebanon</div>
+      </div>
+      
+      <div class="social-links">
+        <a href="https://wa.me/96176787799" target="_blank" class="social-icon whatsapp" title="WhatsApp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/rehamaboutaha" target="_blank" class="social-icon linkedin" title="LinkedIn">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 Reham Abou Taha. All rights reserved.</p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <script>
+    /* Pop-up Video Modal Logic */
+    const videoModal = document.getElementById('videoModal');
+    const openVideoBtn = document.getElementById('openVideoBtn');
+    const closeVideoBtn = document.getElementById('closeVideoBtn');
+    const demoVideo = document.getElementById('demoVideo');
+
+    openVideoBtn.addEventListener('click', () => {
+      videoModal.classList.add('active');
+      demoVideo.play();
+    });
+
+    function closeModal() {
+      videoModal.classList.remove('active');
+      demoVideo.pause();
+      demoVideo.currentTime = 0;
+    }
+
+    closeVideoBtn.addEventListener('click', closeModal);
+
+    videoModal.addEventListener('click', (e) => {
+      if (e.target === videoModal) {
+        closeModal();
+      }
+    });
+
+    /* Three.js Background Animation */
+    const canvas = document.querySelector('#bg-canvas');
+    const scene = new THREE.Scene();
+
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 30;
+
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const particlesCount = 700;
+    const posArray = new Float32Array(particlesCount * 3);
+
+    for (let i = 0; i < particlesCount * 3; i++) {
+      posArray[i] = (Math.random() - 0.5) * 80;
+    }
+
+    const particlesGeometry = new THREE.BufferGeometry();
+    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+    const particlesMaterial = new THREE.PointsMaterial({
+      size: 0.25,
+      color: 0x6C63FF,
+      transparent: true,
+      opacity: 0.8
+    });
+
+    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+    scene.add(particlesMesh);
+
+    const geometry = new THREE.IcosahedronGeometry(8, 1);
+    const material = new THREE.MeshBasicMaterial({
+      color: 0x3F3D56,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.25
+    });
+    const sphere = new THREE.Mesh(geometry, material);
+    scene.add(sphere);
+
+    let mouseX = 0;
+    let mouseY = 0;
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = (e.clientX / window.innerWidth) - 0.5;
+      mouseY = (e.clientY / window.innerHeight) - 0.5;
+    });
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    const clock = new THREE.Clock();
+
+    function animate() {
+      const elapsedTime = clock.getElapsedTime();
+
+      sphere.rotation.y = elapsedTime * 0.1;
+      sphere.rotation.x = elapsedTime * 0.05;
+
+      particlesMesh.rotation.y = elapsedTime * -0.03;
+
+      particlesMesh.rotation.x += (mouseY * 0.2 - particlesMesh.rotation.x) * 0.05;
+      particlesMesh.rotation.y += (mouseX * 0.2 - particlesMesh.rotation.y) * 0.05;
+
+      renderer.render(scene, camera);
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
+</body>
+</html>
